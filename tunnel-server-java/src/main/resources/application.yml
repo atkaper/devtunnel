@@ -1,0 +1,37 @@
+
+spring:
+  profiles.active: tst,local
+  main:
+    banner-mode: off
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger [%mdc{}] - %msg%n"
+  level:
+    com.kaper: INFO
+
+# The range of ports to use. For local test set to a small range to test "range = full" situation.
+# If deployed to kubernetes, you need to match the kubernetes service object to map ALL ports in the range to
+# this server. Unfortunately k8s does not yet support mapping a range, so every single port in the range
+# will need to be added in your k8s service object.
+# On a k8s installation, you can put the range to use as environment variables in your deployment yml.
+tunnel:
+  startPort: ${START_PORT:9000}
+  endPort: ${END_PORT:9004}
+
+---
+
+spring:
+  config.activate.on-profile: local
+  thymeleaf:
+    cache: false
+  web:
+    resources:
+      cache:
+        period: 0
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger [%mdc{}] - %msg%n"
+  level:
+    com.kaper: DEBUG

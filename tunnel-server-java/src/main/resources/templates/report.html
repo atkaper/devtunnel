@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dev Tunnel Status</title>
+    <link rel='stylesheet' id='report-css'  href='/report.css' type='text/css' media='all' />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" sizes="64x64" href="/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <script>
+        function disconnect(userId) {
+            if (!confirm("Do you want to terminate the tunnel for " + userId + " ?")) {
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', '/close');
+            xhr.setRequestHeader('X-Tunnel-User-Id', userId);
+            xhr.onload = function() {
+                window.location.reload();
+            };
+            xhr.send();
+        }
+        function reload() {
+            document.getElementById("refresh").innerText = "#";
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', '/status');
+            xhr.onload = function() {
+                let responseObj = xhr.response;
+                let doc = (new DOMParser()).parseFromString(responseObj, "text/html");
+                // Just replace the table contents to prevent the screen from flashing.
+                document.getElementById("report-table").innerHTML = doc.getElementById("report-table").innerHTML;
+                document.getElementById("refresh").innerText = "🗘";
+                setTimeout(reload, 1000*10);
+            };
+            xhr.send();
+        }
+        setTimeout(reload, 1000*10);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="data">
+            <h3>Dev Tunnel Status</h3>
+            <a id="refresh" title="refresh" href="/status">🗘</a>
+            <table id="report-table" class="report-table">
+                <thead>
+                <tr>
+                    <th>User Id</th>
+                    <th>Server Port</th>
+                    <th>Open Req.</th>
+                    <th>Open Conn.</th>
+                    <th>Active Poll</th>
+                    <th>Total Req.</th>
+                    <th>Total Errors</th>
+                    <th>First Seen</th>
+                    <th>Last Seen</th>
+                    <th>Active</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="line:${report}" th:class="${line.active?'active-row':'inactive-row'}">
+                    <td>
+                        <th:block th:if="${!#strings.contains(line.userId,':')}" th:text="${line.userId}"/>
+                        <th:block th:if="${#strings.contains(line.userId,':')}" th:text="${#strings.substringBefore(line.userId,':')}"/>
+                        <br th:if="${#strings.contains(line.userId,':')}" />
+                        <th:block th:if="${#strings.contains(line.userId,':')}" th:text="${':'+#strings.substringAfter(line.userId,':')}"/>
+                    </td>
+                    <td th:text="${line.serverPort}"></td>
+                    <td th:text="${line.openRequests}"></td>
+                    <td th:text="${line.openConnections}"></td>
+                    <td th:text="${line.activePollCount}"></td>
+                    <td th:text="${line.totalRequests}"></td>
+                    <td th:text="${line.totalErrors}"></td>
+                    <td><th:block th:text="${#dates.format(line.registrationDate, 'yyyy-MM-dd')}"/><br/><th:block th:text="${#dates.format(line.registrationDate, 'HH:mm:ss.SSS')}"/></td>
+                    <td><th:block th:text="${#dates.format(line.lastSeenDate, 'yyyy-MM-dd')}"/><br/><th:block th:text="${#dates.format(line.lastSeenDate, 'HH:mm:ss.SSS')}"/></td>
+                    <td th:text="${line.active?'yes':'no'}" th:data="${line.userId}" onclick="disconnect(this.getAttribute('data'))"></td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td th:text="${'Total Users: ' + userCount}" colspan="10"></td>
+                </tr>
+                </tfoot>
+            </table>
+            <a href="https://www.kaper.com/" target="_blank" id="footer">TKA Oct '22</a>
+        </div>
+    </div>
+</body>
+</html>

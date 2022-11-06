@@ -1,0 +1,95 @@
+
+body {
+    background: #091832 url('/blue-tunnel.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+.report-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+}
+
+.report-table th,
+.report-table td {
+    padding: 12px 15px;
+}
+
+.report-table thead tr {
+    color: #ffffff;
+    text-align: left;
+}
+
+.report-table thead th {
+    background-color: #0300ce;
+}
+
+.report-table thead th:first-child {
+    border-radius: 8px 0 0 0;
+}
+
+.report-table thead th:last-child {
+    border-radius: 0 8px 0 0;
+}
+
+.report-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.report-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.report-table tbody tr:last-of-type {
+    border-bottom: 2px solid #0300ce;
+}
+
+.report-table tbody tr.active-row {
+    color: #0300ce;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.data {
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 10px 30px 10px 30px;
+    margin: 10px;
+}
+
+#refresh {
+    text-decoration: none;
+    font-size: x-large;
+    position: absolute;
+    right: 34px;
+    top: 24px;
+    color: black;
+}
+
+#footer {
+    text-decoration: none;
+    font-size: small;
+    position: absolute;
+    bottom: 14px;
+    right: 30px;
+    color: black;
+}
