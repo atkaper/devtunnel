@@ -190,7 +190,7 @@ The current version does not make proper use of the asynchronous constructs of n
 done in a simple synchronous (endless loop) way:
 
 - you start the code using:
-  ```nodejs dev-tunnel-client.js http://tunnel-server:server-port/ 3001``` where 3001
+  ```yarn && nodejs dev-tunnel-client.js http://tunnel-server:server-port/ 3001``` where 3001
   is the local target port. You can replace that with the port you need for your local app.
   And if you run two apps locally on two different ports, you can just start two tunnels
   at the same time. Note: you can also connect to an httpS tunnel-server, but the local
