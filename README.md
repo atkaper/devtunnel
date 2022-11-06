@@ -1,5 +1,7 @@
 # devtunnel
 
+See also blog post: https://www.kaper.com/cloud/devtunnel---a-reverse-proxy-tunnel/
+
 ## High Level Description
 
 You can use this project to make a local running web application appear to be running
@@ -68,7 +70,8 @@ which only makes traffic from laptop to cluster possible. And not the other way 
 
 The image explained:
 
-- The developer runs a local web application, which makes a part of the test website.
+- The developer runs a local web application, which becomes (or takes over) a part of the test
+  website.
 - The browser on the developer machine talks to the web proxy on the kubernetes test cluster.
 - The web proxy on that cluster has rules to know to which web-app to send the traffic to.
 - One of the web-apps can be simulated by the tunnel-server.
@@ -109,7 +112,7 @@ example, which you can use to package this server for deployment in kubernetes.
     tunnel-server.
   - The client sends a GET request, which is paused at the tunnel-server end until either a
     request comes in for that client on the server port. Or if 30 seconds without request
-    have passed.
+    have passed, the request will also terminate.
   - If the 30 seconds were over, then the client will just start a new poller request.
   - If there was a request for the tunnel on the server-port, then the request is read,
     and send as RESPONSE on the poller-request back to the tunnel client.
@@ -119,10 +122,10 @@ example, which you can use to package this server for deployment in kubernetes.
   - The tunnel server will pass that on as response via the server port to the original
     requester.
   - As last step, the POST will hang in the tunnel-server to wait for a next request on the
-    server port. Or it will time out if no requests come are done within 30 seconds.
+    server port. Or it will time out if no requests are done within 30 seconds.
   - From here on the tunnel and server loop back to the top of this list (after the
     registration step).
-- The current tunnel-client is written in NodeJS, as that is the runtime which is on all
+- The current tunnel-client is written for NodeJS, as that is the runtime which is on all
   frontend developer machines. If needed, I could look at making a python or java client
   also, for use by backenders / service developers.
 
@@ -131,7 +134,8 @@ purpose. You might want to have a look at those, to see which one does suit your
 On our environment, we also have created an SSH server container, to start reverse SSH tunnels
 for a similar purpose, so that is also a solution direction you can use, as SSH also can create
 reverse tunnels. I just thought it was fun (a nice challenge) to develop a layer 7 version for
-this on top of a http(s) transport.
+this on top of a http(s) transport. And this one handles server port to user assignments
+automatically, while in the SSH server case, all users must agree on which ports to use.
 
 To run the server, you can either build the docker image, and start it:
 
@@ -140,7 +144,7 @@ To run the server, you can either build the docker image, and start it:
 
 This docker setup does not require you to have java 17 on your machine.
 Note: there are two Dockerfiles, one which assumes you did a java build in advance, and
-one which does the full build for you.
+one which does the full build for you. Just see which one is better as base for your CI/CD.
 
 Or you can just build it on your command line:
 
@@ -149,7 +153,7 @@ Or you can just build it on your command line:
 
 You do need java (jdk 17) on your machine to build and run it without the docker setup.
 
-It is left as an exercise to the reader / user to migrate this build to fit your CI-cd systems.
+It is left as an exercise to the reader / user to migrate this build to fit your CI/CD systems.
 After I have installed this, I might add an example kubernetes deployment yml file to this
 project. When running on our clusters, we use json log format. Just start with JVM option:
 ```-Dspring.profiles.active=kubernetes,tst``` in that case (is the default in the dockerfiles).
@@ -169,7 +173,8 @@ is active or not. On tunnel-server restart, the list will be cleared.
 See folder ```tunnel-client-nodejs``` for the code. Written for nodejs.
 
 Disclaimer: I am NOT a nodejs application developer. So some of my choices in the code might
-seem a bit off ;-) Feel free to submit correction pull-requests to me.
+seem a bit off ;-) Feel free to submit correction pull-requests to me. Or just let me know
+if any part of the code can be improved (and how).
 
 All code is currently in a single file: ```dev-tunnel-client.js```.
 
@@ -181,7 +186,7 @@ The current tunnel client is a working proof-of-concept. It is quite possible th
 actually start using this, that it will be copied into some other work repository
 (a tools/library mono repo), and will get refactored heavily.
 
-The current version does not make proper use of the asynchronous ideas of nodejs. All is
+The current version does not make proper use of the asynchronous constructs of nodejs. All is
 done in a simple synchronous (endless loop) way:
 
 - you start the code using:
@@ -192,7 +197,7 @@ done in a simple synchronous (endless loop) way:
   app will for now always be talked to without httpS, to using plain http. We could add https
   targets if needed, but I see no need for it at the moment.
 - it reads the ```~/dev-tunnel.conf``` config file (or creates one)
-- a user-id is constructed from logged on username, your machine name, the required target
+- a user-id is constructed from the logged on username, your machine name, the required target
   application port, and a random number to prevent double user-ids. Example user-id:
   ```thijs@fizzgig:8888#672243```.
 - it registers your tunnel, using your user-id.
@@ -212,9 +217,9 @@ done in a simple synchronous (endless loop) way:
   - post the response to the tunnel-server (and tunnel server will send it on to the
     original web caller).
   - and the post will end in a poll-wait for a next request.
-  - and this goes back to the start of the endless loop...
+  - then this goes back to the start of the endless loop...
 - If more than 10 errors occur at the start of the endless loop, the tunnel client does
-  exit. And in that case you will have to restart the tunnel-client to get is registered
+  exit. In that case you will have to restart the tunnel-client to get it registered
   again. Note: this could happen on network loss, or if the tunnel-server is restarted
   for some reason.
 
@@ -235,13 +240,13 @@ Example contents of the ```~/dev-tunnel.conf``` config file:
 You can edit any values in this file, if needed. But I guess the defaults will all work fine for
 everyone.
 
-- The user is taken initially from your logged on user account on your laptop.
-- The host is attempted to be read from your machien hostname. Not sure if that will work
+- The ```user``` is taken initially from your logged on user account on your laptop.
+- The ```host``` is attempted to be read from your machine hostname. Not sure if that will work
   on all different OS-es (tested on Linux for now). So if you see a wrong value there, you
   can correct it if you want.
-- The userIdPostfix is a random number. Just in case there are multiple users which have the same
+- The ```userIdPostfix``` is a random number. Just in case there are multiple users which have the same
   username, and same host name.
-- The lastUsedPorts contains a map from your local application target port, to the last server
+- The ```lastUsedPorts``` contains a map from your local application target port, to the last server
   port we got for that target. On a new start, the tunnel client will let the server know what
   that last used server port was, and if it is not in use by someone else, the server will get
   you that same port again.
@@ -261,9 +266,12 @@ TODO / Change Requests (not high priority):
 - If needed, add some form of security? Not really needed I think. As you can not abuse the tunnel.
 - Perhaps make list of connections persistent at server side also, instead of just in tunnel-clients.
   This would help in giving all developers their own dedicated server ports.
-- Implement aut-reconnect of tunnel-client, if tunnel-server has been restarted.
-- Perhaps add some unit tests? (probably not going to happen ;-))
-- Report has a hidden feature to terminate/kill a tunnel. Make that visible (hoping users will
+- Implement auto-reconnect of tunnel-client, if tunnel-server has been restarted. The client has been
+  prepared for this by retrying a couple of times on connection loss, and passing in the current
+  server-port in use. The server could "trust" that information to restart the server socket.
+  Another option would be to let the tunnel-client do a re-register on connection loss.
+- Perhaps add some unit tests? [ probably not going to happen ;-) ]
+- The report has a hidden feature to terminate/kill a tunnel. Make that visible (hoping users will
   not randomly start killing other peoples connections).
 
 Thijs Kaper, November 6, 2022.
