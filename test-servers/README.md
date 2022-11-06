@@ -5,13 +5,13 @@ This folder contains some test server backends, to simulate some local app to ru
 ## Test Steps
 
 - You should start the tunnel-server-java "devtunnel" server, to listen on port 8080.
-- Then start one of thes server backends.
+- Then start one of these server backends.
 - Next start the tunnel-client-nodejs tunnel client using nodejs (I currently use nodejs v16.14.2).
   Pass in the following start arguments to the tunnel client:
   - http://127.0.0.1:8080/
   - 8888
 - Note: the tunnel client start will show which server port is assigned to you.
-  In my tests, I kept using server port 9003. After it selected aport, it will keep the same one
+  In my tests, I kept using server port 9003. After it selected a port, it will keep the same one
   for each test run, as it stores the configuration in ```~/dev-tunnel.conf```.
   If you want to, you can edit that config to choose a target server port you prefer. After editing
   the config, restart the tunnel server, and the tunnel client to pick up the change.
@@ -23,7 +23,7 @@ This folder contains some test server backends, to simulate some local app to ru
 
 ## The test servers
 
-Note: all of these are set to listen on port 8888, to be able to swicth them around while my tunnel
+Note: all of these are set to listen on port 8888, to be able to switch them around while my tunnel
 was still running.
 
 ### echo-service.py
@@ -31,7 +31,7 @@ was still running.
 The ```echo-service.py``` is a simple python3 echo server. It reads whatever you throw at it, and
 responds with a report of what you did send.
 
-Any request url or method (GET/POST) you send should you a response.
+Any request url or method (GET/POST) you send, should a response.
 
 ### chunked-server.sh
 
@@ -60,7 +60,7 @@ page did lead me to find a tunnel client bug, which of course has been fixed now
 ### nginx-proxy
 
 The ```nginx-proxy``` folder contains the ```run.sh``` script which starts a docker container with
-an nging proxy, using configuration ```default.conf```. It does proxy traffic from port 8888 to
+an nginx proxy, using configuration ```default.conf```. It does proxy traffic from port 8888 to
 website https://www.kaper.com/ just to have a site to browse through to test via the tunnel.
 
 Note/Warning: the ```default.conf``` file contains some html response search/replace statements,
@@ -84,7 +84,7 @@ $ cat ~/dev-tunnel.conf
 }
 ```
 
-## Netork Inspection
+## Network Inspection
 
 The folder also contains ```tcpdump-port-8080.sh``` and ```tcpdump-port-8888.sh```, which start
 a tcpdump on the ports 8080 and 8888. I did use those to look at the packages going between
