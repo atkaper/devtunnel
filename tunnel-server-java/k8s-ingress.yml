@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    release: devtunnel
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  name: devtunnel
+spec:
+  rules:
+  - host: devtunnel.your-domain
+    http:
+      paths:
+      - backend:
+          service:
+            name: devtunnel
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - devtunnel.your-domain
+    secretName: your-domain-cert
+

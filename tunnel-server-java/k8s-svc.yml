@@ -1,0 +1,417 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    release: devtunnel
+  name: devtunnel
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: http-9000
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
+  - name: http-9001
+    port: 9001
+    protocol: TCP
+    targetPort: 9001
+  - name: http-9002
+    port: 9002
+    protocol: TCP
+    targetPort: 9002
+  - name: http-9003
+    port: 9003
+    protocol: TCP
+    targetPort: 9003
+  - name: http-9004
+    port: 9004
+    protocol: TCP
+    targetPort: 9004
+  - name: http-9005
+    port: 9005
+    protocol: TCP
+    targetPort: 9005
+  - name: http-9006
+    port: 9006
+    protocol: TCP
+    targetPort: 9006
+  - name: http-9007
+    port: 9007
+    protocol: TCP
+    targetPort: 9007
+  - name: http-9008
+    port: 9008
+    protocol: TCP
+    targetPort: 9008
+  - name: http-9009
+    port: 9009
+    protocol: TCP
+    targetPort: 9009
+  - name: http-9010
+    port: 9010
+    protocol: TCP
+    targetPort: 9010
+  - name: http-9011
+    port: 9011
+    protocol: TCP
+    targetPort: 9011
+  - name: http-9012
+    port: 9012
+    protocol: TCP
+    targetPort: 9012
+  - name: http-9013
+    port: 9013
+    protocol: TCP
+    targetPort: 9013
+  - name: http-9014
+    port: 9014
+    protocol: TCP
+    targetPort: 9014
+  - name: http-9015
+    port: 9015
+    protocol: TCP
+    targetPort: 9015
+  - name: http-9016
+    port: 9016
+    protocol: TCP
+    targetPort: 9016
+  - name: http-9017
+    port: 9017
+    protocol: TCP
+    targetPort: 9017
+  - name: http-9018
+    port: 9018
+    protocol: TCP
+    targetPort: 9018
+  - name: http-9019
+    port: 9019
+    protocol: TCP
+    targetPort: 9019
+  - name: http-9020
+    port: 9020
+    protocol: TCP
+    targetPort: 9020
+  - name: http-9021
+    port: 9021
+    protocol: TCP
+    targetPort: 9021
+  - name: http-9022
+    port: 9022
+    protocol: TCP
+    targetPort: 9022
+  - name: http-9023
+    port: 9023
+    protocol: TCP
+    targetPort: 9023
+  - name: http-9024
+    port: 9024
+    protocol: TCP
+    targetPort: 9024
+  - name: http-9025
+    port: 9025
+    protocol: TCP
+    targetPort: 9025
+  - name: http-9026
+    port: 9026
+    protocol: TCP
+    targetPort: 9026
+  - name: http-9027
+    port: 9027
+    protocol: TCP
+    targetPort: 9027
+  - name: http-9028
+    port: 9028
+    protocol: TCP
+    targetPort: 9028
+  - name: http-9029
+    port: 9029
+    protocol: TCP
+    targetPort: 9029
+  - name: http-9030
+    port: 9030
+    protocol: TCP
+    targetPort: 9030
+  - name: http-9031
+    port: 9031
+    protocol: TCP
+    targetPort: 9031
+  - name: http-9032
+    port: 9032
+    protocol: TCP
+    targetPort: 9032
+  - name: http-9033
+    port: 9033
+    protocol: TCP
+    targetPort: 9033
+  - name: http-9034
+    port: 9034
+    protocol: TCP
+    targetPort: 9034
+  - name: http-9035
+    port: 9035
+    protocol: TCP
+    targetPort: 9035
+  - name: http-9036
+    port: 9036
+    protocol: TCP
+    targetPort: 9036
+  - name: http-9037
+    port: 9037
+    protocol: TCP
+    targetPort: 9037
+  - name: http-9038
+    port: 9038
+    protocol: TCP
+    targetPort: 9038
+  - name: http-9039
+    port: 9039
+    protocol: TCP
+    targetPort: 9039
+  - name: http-9040
+    port: 9040
+    protocol: TCP
+    targetPort: 9040
+  - name: http-9041
+    port: 9041
+    protocol: TCP
+    targetPort: 9041
+  - name: http-9042
+    port: 9042
+    protocol: TCP
+    targetPort: 9042
+  - name: http-9043
+    port: 9043
+    protocol: TCP
+    targetPort: 9043
+  - name: http-9044
+    port: 9044
+    protocol: TCP
+    targetPort: 9044
+  - name: http-9045
+    port: 9045
+    protocol: TCP
+    targetPort: 9045
+  - name: http-9046
+    port: 9046
+    protocol: TCP
+    targetPort: 9046
+  - name: http-9047
+    port: 9047
+    protocol: TCP
+    targetPort: 9047
+  - name: http-9048
+    port: 9048
+    protocol: TCP
+    targetPort: 9048
+  - name: http-9049
+    port: 9049
+    protocol: TCP
+    targetPort: 9049
+  - name: http-9050
+    port: 9050
+    protocol: TCP
+    targetPort: 9050
+  - name: http-9051
+    port: 9051
+    protocol: TCP
+    targetPort: 9051
+  - name: http-9052
+    port: 9052
+    protocol: TCP
+    targetPort: 9052
+  - name: http-9053
+    port: 9053
+    protocol: TCP
+    targetPort: 9053
+  - name: http-9054
+    port: 9054
+    protocol: TCP
+    targetPort: 9054
+  - name: http-9055
+    port: 9055
+    protocol: TCP
+    targetPort: 9055
+  - name: http-9056
+    port: 9056
+    protocol: TCP
+    targetPort: 9056
+  - name: http-9057
+    port: 9057
+    protocol: TCP
+    targetPort: 9057
+  - name: http-9058
+    port: 9058
+    protocol: TCP
+    targetPort: 9058
+  - name: http-9059
+    port: 9059
+    protocol: TCP
+    targetPort: 9059
+  - name: http-9060
+    port: 9060
+    protocol: TCP
+    targetPort: 9060
+  - name: http-9061
+    port: 9061
+    protocol: TCP
+    targetPort: 9061
+  - name: http-9062
+    port: 9062
+    protocol: TCP
+    targetPort: 9062
+  - name: http-9063
+    port: 9063
+    protocol: TCP
+    targetPort: 9063
+  - name: http-9064
+    port: 9064
+    protocol: TCP
+    targetPort: 9064
+  - name: http-9065
+    port: 9065
+    protocol: TCP
+    targetPort: 9065
+  - name: http-9066
+    port: 9066
+    protocol: TCP
+    targetPort: 9066
+  - name: http-9067
+    port: 9067
+    protocol: TCP
+    targetPort: 9067
+  - name: http-9068
+    port: 9068
+    protocol: TCP
+    targetPort: 9068
+  - name: http-9069
+    port: 9069
+    protocol: TCP
+    targetPort: 9069
+  - name: http-9070
+    port: 9070
+    protocol: TCP
+    targetPort: 9070
+  - name: http-9071
+    port: 9071
+    protocol: TCP
+    targetPort: 9071
+  - name: http-9072
+    port: 9072
+    protocol: TCP
+    targetPort: 9072
+  - name: http-9073
+    port: 9073
+    protocol: TCP
+    targetPort: 9073
+  - name: http-9074
+    port: 9074
+    protocol: TCP
+    targetPort: 9074
+  - name: http-9075
+    port: 9075
+    protocol: TCP
+    targetPort: 9075
+  - name: http-9076
+    port: 9076
+    protocol: TCP
+    targetPort: 9076
+  - name: http-9077
+    port: 9077
+    protocol: TCP
+    targetPort: 9077
+  - name: http-9078
+    port: 9078
+    protocol: TCP
+    targetPort: 9078
+  - name: http-9079
+    port: 9079
+    protocol: TCP
+    targetPort: 9079
+  - name: http-9080
+    port: 9080
+    protocol: TCP
+    targetPort: 9080
+  - name: http-9081
+    port: 9081
+    protocol: TCP
+    targetPort: 9081
+  - name: http-9082
+    port: 9082
+    protocol: TCP
+    targetPort: 9082
+  - name: http-9083
+    port: 9083
+    protocol: TCP
+    targetPort: 9083
+  - name: http-9084
+    port: 9084
+    protocol: TCP
+    targetPort: 9084
+  - name: http-9085
+    port: 9085
+    protocol: TCP
+    targetPort: 9085
+  - name: http-9086
+    port: 9086
+    protocol: TCP
+    targetPort: 9086
+  - name: http-9087
+    port: 9087
+    protocol: TCP
+    targetPort: 9087
+  - name: http-9088
+    port: 9088
+    protocol: TCP
+    targetPort: 9088
+  - name: http-9089
+    port: 9089
+    protocol: TCP
+    targetPort: 9089
+  - name: http-9090
+    port: 9090
+    protocol: TCP
+    targetPort: 9090
+  - name: http-9091
+    port: 9091
+    protocol: TCP
+    targetPort: 9091
+  - name: http-9092
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  - name: http-9093
+    port: 9093
+    protocol: TCP
+    targetPort: 9093
+  - name: http-9094
+    port: 9094
+    protocol: TCP
+    targetPort: 9094
+  - name: http-9095
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  - name: http-9096
+    port: 9096
+    protocol: TCP
+    targetPort: 9096
+  - name: http-9097
+    port: 9097
+    protocol: TCP
+    targetPort: 9097
+  - name: http-9098
+    port: 9098
+    protocol: TCP
+    targetPort: 9098
+  - name: http-9099
+    port: 9099
+    protocol: TCP
+    targetPort: 9099
+  selector:
+    release: devtunnel
+  sessionAffinity: None
+  type: ClusterIP
+

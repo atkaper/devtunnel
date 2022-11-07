@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    release: devtunnel
+  name: devtunnel
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      release: devtunnel
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        release: devtunnel
+    spec:
+      containers:
+      - command:
+        - java
+        - -XX:MaxRAMPercentage=80
+        - -XshowSettings:vm
+        - -Dspring.profiles.active=kubernetes,tst
+        - -jar
+        - /app/service.jar
+        env:
+        - name: TZ
+          value: Europe/Amsterdam
+        - name: END_PORT
+          value: "9099"
+        - name: START_PORT
+          value: "9000"
+        image: your-container-registry/devtunnel:0.1.0
+        imagePullPolicy: IfNotPresent
+        name: devtunnel
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: 800Mi
+          requests:
+            cpu: 100m
+            memory: 400Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/localtime
+          name: tz-config
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+        supplementalGroups:
+        - 1000
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - hostPath:
+          path: /usr/share/zoneinfo/Europe/Amsterdam
+          type: ""
+        name: tz-config
+

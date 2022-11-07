@@ -154,9 +154,12 @@ Or you can just build it on your command line:
 You do need java (jdk 17) on your machine to build and run it without the docker setup.
 
 It is left as an exercise to the reader / user to migrate this build to fit your CI/CD systems.
-After I have installed this, I might add an example kubernetes deployment yml file to this
-project. When running on our clusters, we use json log format. Just start with JVM option:
+When running on our clusters, we use json log format. Just start with JVM option:
 ```-Dspring.profiles.active=kubernetes,tst``` in that case (is the default in the dockerfiles).
+
+See files ```k8s-deploy.yml```, ```k8s-svc.yml```, and ```k8s-ingress.yml``` in folder
+```tunnel-server-java``` for an example of kubernetes deployment files. You will need to tweak
+these for your situation / cluster / CI-CD system.
 
 ## tunnel-server-java - report
 
@@ -262,6 +265,7 @@ folder.
 
 TODO / Change Requests (not high priority):
 
+- Implement health endpoint, and prometheus metrics (to be able to keep an eye on memory use).
 - Implement chunked POST's to the tunnel-server from the web requests.
 - If needed, add some form of security? Not really needed I think. As you can not abuse the tunnel.
 - Perhaps make list of connections persistent at server side also, instead of just in tunnel-clients.
@@ -275,3 +279,4 @@ TODO / Change Requests (not high priority):
   not randomly start killing other peoples connections).
 
 Thijs Kaper, November 6, 2022.
+
